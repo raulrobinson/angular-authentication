@@ -106,6 +106,14 @@ El diseño es completamente responsive y funciona en:
 - Tablets
 - Escritorio
 
+## 📸 Capturas de Pantalla
+
+![img.png](login.png)
+
+![img_1.png](register.png)
+
+![img_2.png](dashboard.png)
+
 ## 🚀 Despliegue
 
 Para desplegar en producción:
