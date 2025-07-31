@@ -47,6 +47,8 @@ src/
 │   │   ├── login/          # Componente de login
 │   │   ├── register/       # Componente de registro
 │   │   └── dashboard/      # Panel de usuario
+│   ├── models/             # Modelos de datos
+│   │   └── auth-models.ts    # Modelo de usuario
 │   ├── services/
 │   │   └── auth.ts         # Servicio de autenticación
 │   ├── guards/
