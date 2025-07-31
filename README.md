@@ -20,7 +20,7 @@ Un sistema completo de login y registro desarrollado en Angular con diseño mode
 
 1. **Clonar el repositorio**:
 ```bash
-git clone <url-del-repositorio>
+git clone https://github.com/raulrobinson/angular-authentication
 ```
 
 2. **Instalar dependencias**:
