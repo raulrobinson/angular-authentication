@@ -1,0 +1,45 @@
+services:
+
+  frontend:
+    image: nginx:latest
+    container_name: frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    networks:
+      - app-network
+
+  backend:
+    image: openjdk:21-jdk-slim
+    container_name: backend
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    command: ["java", "-jar", "app.jar", "--server.port=8080"]
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  database:
+    image: postgres:latest
+    container_name: database
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    db_data:
+        driver: local

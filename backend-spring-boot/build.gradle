@@ -1,0 +1,61 @@
+plugins {
+  id 'java'
+  id 'org.springframework.boot' version '3.5.4'
+  id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.demo'
+version = '0.0.1-SNAPSHOT'
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
+
+configurations {
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+  implementation 'org.springframework.boot:spring-boot-starter-validation'
+  implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+  // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webflux-ui
+  implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.9'
+
+  // Security and OAuth2 dependencies
+  implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+  implementation 'org.springframework.boot:spring-boot-starter-security'
+
+  // JWT dependencies
+  implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+  runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+  runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+  // R2DBC PostgreSQL actualizado (soporta TransactionDefinition)
+  // https://mvnrepository.com/artifact/org.postgresql/r2dbc-postgresql
+  implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
+
+  // Mapstruct dependencies
+  implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+  annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+  compileOnly 'org.projectlombok:lombok'
+  annotationProcessor 'org.projectlombok:lombok'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'io.projectreactor:reactor-test'
+  testImplementation 'org.springframework.security:spring-security-test'
+  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+  useJUnitPlatform()
+}

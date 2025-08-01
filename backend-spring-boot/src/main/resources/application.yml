@@ -1,0 +1,23 @@
+jwt:
+  secret: "wN!as4kdpN98A2m3V9x7QqZLrP0f98A2m3V9x7QqZLGtYz"  # debe tener al menos 32 caracteres (256 bits)
+  expiration-time-sec: 30  # 30 segundos
+
+spring:
+  jackson:
+    time-zone: America/Bogota
+
+# [DATABASE] Configuration for Postgres R2DBC
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/mydb
+    username: user
+    password: password
+
+  datasource: # Opcional: útil si usas Flyway o herramientas JDBC
+    url: jdbc:postgresql://localhost:5432/mydb
+    username: user
+    password: password
+  sql:
+    init:
+      data-locations: classpath:schema.sql
+      platform: postgres
+      mode: always
