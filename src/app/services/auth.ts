@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthResponse, LoginRequest, RegisterRequest, User } from '@models/auth-models';
 
@@ -8,13 +8,12 @@ import { AuthResponse, LoginRequest, RegisterRequest, User } from '@models/auth-
   providedIn: 'root'
 })
 export class AuthService {
+  private http = inject(HttpClient);
+
   private currentUserSubject = new BehaviorSubject<User | null>(null);
-  public currentUser$ = this.currentUserSubject.asObservable();
-
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
-  public isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.loadStoredUser();
   }
 
@@ -24,57 +23,56 @@ export class AuthService {
 
     if (token && user) {
       try {
-        const userObj = JSON.parse(user);
+        const userObj: User = JSON.parse(user);
         this.currentUserSubject.next(userObj);
         this.isAuthenticatedSubject.next(true);
-      } catch (error) {
+      } catch {
         this.clearStoredData();
       }
     }
   }
 
   login(credentials: LoginRequest): Observable<AuthResponse> {
-    // For demo purposes, we'll simulate a successful login
-    // In a real app, this would be an HTTP call to your backend
-    return of({
-      user: {
-        id: 1,
-        email: credentials.email,
-        name: credentials.email.split('@')[0]
-      },
-      token: 'demo-jwt-token-' + Date.now()
-    }).pipe(
+    return this.http.post<AuthResponse>('api/auth/login', credentials).pipe(
       tap(response => {
-        this.setSession(response);
+        const user: User = { email: credentials.email, name: credentials.email.split('@')[0] };
+        this.setSession(response.token, user);
       })
     );
   }
 
   register(userData: RegisterRequest): Observable<AuthResponse> {
-    // For demo purposes, we'll simulate a successful registration
-    // In a real app, this would be an HTTP call to your backend
-    return of({
-      user: {
-        id: Date.now(),
-        email: userData.email,
-        name: userData.name
-      },
-      token: 'demo-jwt-token-' + Date.now()
-    }).pipe(
+    return this.http.post<AuthResponse>('api/auth/register', userData).pipe(
       tap(response => {
-        this.setSession(response);
+        const user: User = { email: userData.email, name: userData.name };
+        this.setSession(response.token, user);
       })
     );
   }
 
   logout(): void {
-    this.clearStoredData();
+    const token = this.getToken();
+    if (token) {
+      this.http.get('/api/auth/logout', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).subscribe({
+        next: () => this.clearStoredData(),
+        error: err => {
+          console.warn('❌ Logout request failed, clearing local data anyway.', err);
+          this.clearStoredData();
+        }
+      });
+    } else {
+      this.clearStoredData();
+    }
   }
 
-  private setSession(authResult: AuthResponse): void {
-    localStorage.setItem('token', authResult.token);
-    localStorage.setItem('user', JSON.stringify(authResult.user));
-    this.currentUserSubject.next(authResult.user);
+  private setSession(token: string, user: User): void {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user));
+    this.currentUserSubject.next(user);
     this.isAuthenticatedSubject.next(true);
   }
 

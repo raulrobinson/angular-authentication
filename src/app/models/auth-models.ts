@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id?: number;
   email: string;
   name: string;
 }
@@ -17,6 +17,18 @@ export interface RegisterRequest {
 }
 
 export interface AuthResponse {
-  user: User;
+  messageId: string;
   token: string;
 }
+
+export interface ErrorResponse {
+  code: number;
+  message: string;
+  identifier: string;
+  timestamp: string;
+  errors?: {
+    message: string;
+    parameter: string;
+  }[];
+}
+
