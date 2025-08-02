@@ -10,6 +10,7 @@ import org.springdoc.core.annotations.RouterOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -80,7 +81,7 @@ public class UserRouter {
     @org.springdoc.core.annotations.RouterOperation(
       path = "/api/auth/logout",
       produces = "application/json",
-      method = org.springframework.web.bind.annotation.RequestMethod.POST,
+      method = RequestMethod.GET,
       beanClass = UserHandler.class,
       beanMethod = "logout",
       operation = @io.swagger.v3.oas.annotations.Operation(
@@ -95,7 +96,7 @@ public class UserRouter {
     return RouterFunctions.route()
       .POST("/api/auth/register", accept(MediaType.APPLICATION_JSON), handler::createUser)
       .POST("/api/auth/login", accept(MediaType.APPLICATION_JSON), handler::login)
-      .POST("/api/auth/logout", handler::logout)       // requiere JWT
+      .GET("/api/auth/logout", handler::logout)       // requiere JWT
       .build();
   }
 }
