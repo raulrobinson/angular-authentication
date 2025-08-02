@@ -1,4 +1,4 @@
-package com.demo.backend.application.config;
+package com.demo.backend.application.config.beans;
 
 import com.demo.backend.domain.api.UserAdapterPort;
 import com.demo.backend.domain.usecase.UserUseCase;

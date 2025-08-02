@@ -6,14 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Token {
-    private String tokenId;      // puede ser UUID
-    private String userId;
+    private UUID tokenId;      // puede ser UUID
+    private UUID userId;
     private String jwt;
     private ZonedDateTime issuedAt;
     private ZonedDateTime expiresAt;

@@ -1,7 +1,8 @@
-package com.demo.backend.application.config;
+package com.demo.backend.application.config.beans;
 
 import com.demo.backend.infrastructure.adapter.persistence.UserPersistenceAdapter;
 import com.demo.backend.infrastructure.adapter.persistence.mapper.UserMapper;
+import com.demo.backend.infrastructure.adapter.persistence.repository.TokenRepository;
 import com.demo.backend.infrastructure.adapter.persistence.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +15,9 @@ public class UserPersistenceConfig {
   @Bean
   public UserPersistenceAdapter userPersistenceAdapter(TransactionalOperator tx,
                                                        UserRepository userRepository,
+                                                       TokenRepository tokenRepository,
                                                        UserMapper userMapper,
                                                        PasswordEncoder passwordEncoder) {
-    return new UserPersistenceAdapter(tx, userRepository, userMapper, passwordEncoder);
+    return new UserPersistenceAdapter(tx, userRepository, tokenRepository, userMapper, passwordEncoder);
   }
 }

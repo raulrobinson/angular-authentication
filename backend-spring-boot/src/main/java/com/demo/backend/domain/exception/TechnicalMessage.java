@@ -4,6 +4,8 @@ import lombok.Getter;
 
 @Getter
 public enum TechnicalMessage {
+  BAD_REQUEST("400", "Bad request", ""),
+  NOT_FOUND("404", "Not found", ""),
   ALREADY_EXISTS("409", "Already exists", ""),
   INTERNAL_SERVER_ERROR("500", "Internal server error", ""),
   DATABASE_ERROR("500", "Database error occurred", ""),

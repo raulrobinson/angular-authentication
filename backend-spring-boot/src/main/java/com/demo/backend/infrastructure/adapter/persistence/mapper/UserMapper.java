@@ -17,6 +17,7 @@ public interface UserMapper {
       .name(entity.getName())
       .email(entity.getEmail())
       .password(entity.getPassword())
+      .role(entity.getRole())
       .build();
   }
 
@@ -47,6 +48,7 @@ public interface UserMapper {
       .name(userRequest.getName())
       .email(userRequest.getEmail())
       .password(userRequest.getPassword())
+      .role(userRequest.getRole())
       .build();
   }
 

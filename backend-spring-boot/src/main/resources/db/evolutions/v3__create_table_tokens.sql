@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS tokens
+(
+  token_id    UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id     UUID NOT NULL UNIQUE,
+  jwt         VARCHAR(255) NOT NULL UNIQUE,
+  issued_at   TIMESTAMP NOT NULL DEFAULT NOW(),
+  expires_at  TIMESTAMP NOT NULL,
+  active      BOOLEAN NOT NULL DEFAULT FALSE,
+  CONSTRAINT fk_user
+    FOREIGN KEY (user_id) REFERENCES users (id)
+      ON DELETE CASCADE ON UPDATE CASCADE
+);

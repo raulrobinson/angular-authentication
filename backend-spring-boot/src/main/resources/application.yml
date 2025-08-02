@@ -1,23 +1,41 @@
 jwt:
   secret: "wN!as4kdpN98A2m3V9x7QqZLrP0f98A2m3V9x7QqZLGtYz"  # debe tener al menos 32 caracteres (256 bits)
-  expiration-time-sec: 30  # 30 segundos
+  expiration-time-sec: 300  # 30 segundos - 300 segundos = 5 minutos
 
 spring:
   jackson:
     time-zone: America/Bogota
 
-# [DATABASE] Configuration for Postgres R2DBC
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    url: jdbc:postgresql://localhost:5432/mydb
+    user: user
+    password: password
+    locations:
+      "classpath:db/evolutions"
+    sql-migration-suffixes:
+      ".sql"
+    sql-migration-prefix:
+      v
+    sql-migration-separator:
+      "__"
+
+  # [DATABASE] Configuration for Postgres R2DBC
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/mydb
     username: user
     password: password
 
-  datasource: # Opcional: útil si usas Flyway o herramientas JDBC
+  datasource:
     url: jdbc:postgresql://localhost:5432/mydb
     username: user
     password: password
-  sql:
-    init:
-      data-locations: classpath:schema.sql
-      platform: postgres
-      mode: always
+
+logging:
+  level:
+#    org.flywaydb.core: ERROR
+    org:
+      springframework:
+        r2dbc: ERROR
+

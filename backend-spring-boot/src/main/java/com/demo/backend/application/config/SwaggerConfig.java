@@ -1,9 +1,12 @@
 package com.demo.backend.application.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +25,7 @@ public class SwaggerConfig {
             @Value("${openapi.service.contact.email}") String contactEmail,
             @Value("${openapi.service.contact.name}") String contactName,
             @Value("${openapi.service.host}") String host) {
+      final String securitySchemeName = "bearerAuth";
         Contact contact = new Contact()
                 .email(contactEmail)
                 .name(contactName);
@@ -35,9 +39,17 @@ public class SwaggerConfig {
                 .description(description)
                 .termsOfService("https://opensource.org/licenses/MIT")
                 .license(mitLicense);
-        return new OpenAPI()
-                .servers(List.of(new Server().url(host).description(description)))
-                .info(info);
+      return new OpenAPI()
+        .info(info)
+        .servers(List.of(new Server().url(host).description(description)))
+        .addSecurityItem(new SecurityRequirement()
+          .addList(securitySchemeName))
+        .components(new Components()
+          .addSecuritySchemes(securitySchemeName, new SecurityScheme()
+            .name(securitySchemeName)
+            .type(SecurityScheme.Type.HTTP)
+            .scheme("bearer")
+            .bearerFormat("JWT")));
     }
 
 }

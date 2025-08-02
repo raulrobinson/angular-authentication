@@ -1,6 +1,6 @@
 plugins {
   id 'java'
-  id 'org.springframework.boot' version '3.5.4'
+  id 'org.springframework.boot' version '3.2.4'
   id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -29,7 +29,7 @@ dependencies {
   implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
   // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webflux-ui
-  implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.8.9'
+  implementation 'org.springdoc:springdoc-openapi-starter-webflux-ui:2.3.0'
 
   // Security and OAuth2 dependencies
   implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
@@ -41,8 +41,12 @@ dependencies {
   runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
   // R2DBC PostgreSQL actualizado (soporta TransactionDefinition)
-  // https://mvnrepository.com/artifact/org.postgresql/r2dbc-postgresql
   implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
+
+  // Flyway migration support (JDBC)
+  // Flyway CLI support
+  implementation 'org.flywaydb:flyway-core'
+  runtimeOnly 'org.postgresql:postgresql'
 
   // Mapstruct dependencies
   implementation 'org.mapstruct:mapstruct:1.5.5.Final'
