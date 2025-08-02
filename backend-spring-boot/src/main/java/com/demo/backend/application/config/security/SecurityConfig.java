@@ -1,6 +1,5 @@
 package com.demo.backend.application.config.security;
 
-import com.demo.backend.application.config.CorsFilter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
